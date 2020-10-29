@@ -26,3 +26,8 @@ def contact(request):
 def blog(request):
     context = {}
     return render(request, 'store/blog.html', context)
+
+
+def registration(request):
+    context = {}
+    return render(request, 'store/registration.html', context)
