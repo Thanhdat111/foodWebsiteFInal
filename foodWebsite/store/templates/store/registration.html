@@ -36,26 +36,41 @@
             <div class="card-body">
                 <h2 class="title">Registration Info</h2>
                 <form method="POST">
+                    {% csrf_token %}
                     <div class="input-group">
-                        <input class="input--style-2" type="text" placeholder="Name" name="name">
+                        <!--                        <input class="input&#45;&#45;style-2" type="text" placeholder="Name" name="name">-->
+                        <label>Name</label>
+                        <div class="input--style-2">{{ form.username }}</div>
                     </div>
                     <div class="row row-space">
                         <div class="col-2">
                             <div class="input-group">
-                                <input class="input--style-2 js-datepicker" type="text" placeholder="Birthdate"
-                                       name="birthday">
-                                <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
+                                <!--                        <input class="input&#45;&#45;style-2" type="text" placeholder="Name" name="name">-->
+                                <label>Password</label>
+                                <div class="input--style-2">{{ form.password1 }}</div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group">
+                                <!--                        <input class="input&#45;&#45;style-2" type="text" placeholder="Name" name="name">-->
+                                <label>Confirm Password</label>
+                                <div class="input--style-2">{{ form.password2 }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-2">
+                            <div class="input-group">
+                                <!--                        <input class="input&#45;&#45;style-2" type="text" placeholder="Name" name="name">-->
+                                <label>Age</label>
+                                <div class="input--style-2">{{ form.age }}</div>
                             </div>
                         </div>
                         <div class="col-2">
                             <div class="input-group">
                                 <div class="rs-select2 js-select-simple select--no-search">
-                                    <select name="gender">
-                                        <option disabled="disabled" selected="selected">Gender</option>
-                                        <option>Male</option>
-                                        <option>Female</option>
-                                        <option>Other</option>
-                                    </select>
+                                    <label>Gender</label>
+                                    {{ form.gender }}
                                     <div class="select-dropdown"></div>
                                 </div>
                             </div>
@@ -65,114 +80,97 @@
                         <div class="col-2">
                             <div class="input-group">
                                 <div class="rs-select2 js-select-simple select--no-search">
-                                    <select name="cpt">
-                                        <option disabled="disabled" selected="selected">CPT(Chest Pain Type)</option>
-                                        <option>0</option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                    </select>
+                                    <label>Chest pain type (4 values)</label>
+                                    {{ form.cp }}
                                     <div class="select-dropdown"></div>
                                 </div>
                             </div>
                         </div>
+                        <!--                        <div class="col-2">-->
+                        <!--                            <div class="input-group">-->
+                        <!--                                <label>Resting blood pressure</label>-->
+                        <!--                                {{ form.restecg }}-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
                         <div class="col-2">
                             <div class="input-group">
-                                <input class="input--style-2" type="text" placeholder="resting blood pressure"
-                                       name="trestbps">
+                                <!--                        <input class="input&#45;&#45;style-2" type="text" placeholder="Name" name="name">-->
+                                <label>Resting blood pressure</label>
+                                <div class="input--style-2">{{ form.trestbps }}</div>
                             </div>
                         </div>
                         <div class="col-2">
                             <div class="input-group">
-                                <input class="input--style-2" type="text" placeholder="serum cholestoral in mg/dl"
-                                       name="chol">
+                                <label>serum cholestoral in mg/dl </label>
+                                <div class="input--style-2">{{ form.chol }}</div>
                             </div>
                         </div>
                         <div class="col-2">
                             <div class="input-group">
                                 <div class="rs-select2 js-select-simple select--no-search">
-                                    <select name="fps">
-                                        <option disabled="disabled" selected="selected">Fasting Blood Sugar > 120
-                                            mg/dl
-                                        </option>
-                                        <option>0</option>
-                                        <option>1</option>
-                                    </select>
-                                    <div class="select-dropdown"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2">
-                            <div class="input-group">
-                                <div class="rs-select2 js-select-simple select--no-search">
-                                    <select name="restecg">
-                                        <option disabled="disabled" selected="selected">Resting Electrocardiographic
-                                            Results
-                                        </option>
-                                        <option>0</option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                    </select>
+                                    <label>Fasting Blood Sugar </label>
+                                    {{ form.fbs }}
                                     <div class="select-dropdown"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-2">
                             <div class="rs-select2 js-select-simple select--no-search">
-                                <select name="exang">
-                                    <option disabled="disabled" selected="selected">Exercise Induced Angina</option>
-                                    <option>0</option>
-                                    <option>1</option>
-                                </select>
-                                <div class="select-dropdown"></div>
+                                <div class="input-group">
+                                    <label> Resting electrocardiographic</label>
+                                    {{form.restecg}}
+                                    <div class="select-dropdown"></div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-2">
                             <div class="input-group">
-                                <input class="input--style-2" type="text" placeholder="Oldpeak" name="oldpeak">
+                                <label> Maximum heart rate achieved </label>
+                                <div class="input--style-2">{{form.thalach}}</div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="rs-select2 js-select-simple select--no-search">
+                                <div class="input-group">
+                                    <label> Exercise induced angina </label>
+                                    {{form.exang}}
+                                    <div class="select-dropdown"></div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-2">
                             <div class="input-group">
-                                <input class="input--style-2" type="text"
-                                       placeholder="the slope of the peak exercise ST segment" name="slope">
+                                <label>ST depression induced by exercise relative to rest </label>
+                                <div class="input--style-2">{{ form.oldpeak }}</div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group">
+                                <label>the slope of the peak exercise ST segment </label>
+                                <div class="input--style-2">{{ form.slope }}</div>
                             </div>
                         </div>
                         <div class="col-2">
                             <div class="input-group">
                                 <div class="rs-select2 js-select-simple select--no-search">
-                                    <select name="ca">
-                                        <option disabled="disabled" selected="selected">Number Of mMjor Vessels (0-3)
-                                            Colored By Flourosopy
-                                        </option>
-                                        <option>0</option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-
-                                    </select>
+                                    <label> number of major vessels (0-3) colored by flourosopy </label>
+                                    {{form.ca}}
                                     <div class="select-dropdown"></div>
                                 </div>
                             </div>
                         </div>
-                         <div class="col-2">
+                        <div class="col-2">
                             <div class="input-group">
                                 <div class="rs-select2 js-select-simple select--no-search">
-                                    <select name="thal">
-                                        <option disabled="disabled" selected="selected">
-                                            Thal
-                                        </option>
-                                        <option>3 = normal</option>
-                                        <option>6 = fixed defect</option>
-                                        <option>7 = reversable defect</option>
-                                    </select>
+                                    <label> Thal </label>
+                                    {{form.thal}}
                                     <div class="select-dropdown"></div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="p-t-30">
-                        <button class="btn btn--radius btn--green" type="submit">Submit</button>
+                        <div class="p-t-30">
+                            <input class="btn btn--radius btn--green" type="submit" value="Submit">
+                        </div>
                     </div>
                 </form>
             </div>
@@ -193,4 +191,3 @@
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 
 </html>
-<!-- end document-->
