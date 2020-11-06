@@ -6,6 +6,25 @@
 #   * Remove ` ` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.contrib.auth.models import User
+
+
+# create class
+class UserProfileInfo(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    age = models.IntegerField()
+    gender = models.IntegerField()
+    cp = models.IntegerField()
+    trestbps = models.IntegerField()
+    chol = models.IntegerField()
+    fbs = models.IntegerField()
+    restecg = models.IntegerField()
+    thalach = models.IntegerField()
+    exang = models.IntegerField()
+    oldpeak = models.FloatField()
+    slope = models.IntegerField()
+    ca = models.IntegerField()
+    thal = models.IntegerField()
 
 
 class AuthGroup(models.Model):
@@ -660,7 +679,6 @@ class DjangoContentType(models.Model):
         db_table = 'django_content_type'
         unique_together = (('app_label', 'model'),)
         managed = False
-
 
 
 class DjangoMigrations(models.Model):

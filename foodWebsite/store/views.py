@@ -1,12 +1,25 @@
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
+from .models import UserProfileInfo, Meats
 from .form import RegisterForm
+
+
 # Create your views here.
 
 
 def store(request):
-    context = {}
+    username = request.user.username
+    user_id = request.user.id
+    userProfile = UserProfileInfo.objects.get(user_id=user_id)
+    meats = Meats.objects.raw('SELECT * FROM fooddata.pickles')
+    context = {'username': username,
+               'userId': id,
+               'userProfiler': userProfile,
+               'meats': meats}
+
+    print(request.user.id)
+    print(userProfile.cp)
     return render(request, 'store/index.html', context)
 
 

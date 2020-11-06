@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
+from .models import UserProfileInfo
 
 
 class RegisterForm(UserCreationForm):
@@ -45,9 +46,22 @@ class RegisterForm(UserCreationForm):
         return password2
 
     def save(self, commit=True):
-        user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password1"])
-        if commit:
-            user.save()
-        return user
-
+        if not commit:
+            raise NotImplementedError("Can't create User and UserProfile without database save")
+        user = super(RegisterForm, self).save(commit=True)
+        user_profile = UserProfileInfo(user=user,
+                                       gender=self.cleaned_data['gender'],
+                                       age=self.cleaned_data['age'],
+                                       cp=self.cleaned_data['cp'],
+                                       trestbps=self.cleaned_data['trestbps'],
+                                       chol=self.cleaned_data['chol'],
+                                       fbs=self.cleaned_data['fbs'],
+                                       restecg=self.cleaned_data['restecg'],
+                                       thalach=self.cleaned_data['thalach'],
+                                       exang=self.cleaned_data['exang'],
+                                       oldpeak=self.cleaned_data['oldpeak'],
+                                       slope=self.cleaned_data['slope'],
+                                       ca=self.cleaned_data['ca'],
+                                       thal=self.cleaned_data['thal'])
+        user_profile.save()
+        return user, user_profile

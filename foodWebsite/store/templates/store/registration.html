@@ -37,6 +37,14 @@
                 <h2 class="title">Registration Info</h2>
                 <form method="POST">
                     {% csrf_token %}
+                    <div>
+                        <label style="color:red;font-size: large; ">
+                            {% csrf_token %}
+                            {% for key, value in form.errors.items %}
+                            {{value}}
+                            {% endfor %}
+                        </label>
+                    </div>
                     <div class="input-group">
                         <!--                        <input class="input&#45;&#45;style-2" type="text" placeholder="Name" name="name">-->
                         <label>Name</label>
