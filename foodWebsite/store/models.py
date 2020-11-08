@@ -25,6 +25,7 @@ class UserProfileInfo(models.Model):
     slope = models.IntegerField()
     ca = models.IntegerField()
     thal = models.IntegerField()
+    target = models.IntegerField()
 
 
 class AuthGroup(models.Model):

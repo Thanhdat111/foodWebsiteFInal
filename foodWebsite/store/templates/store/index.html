@@ -122,9 +122,10 @@
                         </div>
                         <div class="header__top__right__auth">
                             {% if userId == None %}
-                            <a href="#"><i class="fa fa-user"></i> Login</a>
+                            <a href="login/"><i class="fa fa-user"></i> Login</a>
                             {% else %}
                             <a href="#"><i class="fa fa-user"></i> {{username}}</a>
+                            <a href="logout/">Logout </a>
                             {% endif %}
                         </div>
                     </div>

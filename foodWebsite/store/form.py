@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
+import pickle
 from .models import UserProfileInfo
 
 
@@ -45,6 +46,31 @@ class RegisterForm(UserCreationForm):
             raise forms.ValidationError("Passwords don't match")
         return password2
 
+    def predict_data(self, data):
+        f = open("datamodel/finalized_model.sav", "rb")
+        loaded_model = pickle.load(f)
+        result = loaded_model.predict([data])
+        return result
+
+    def prepareDataCP(self, data):
+        data = ()
+        switcher = {
+            0: data(1, 0, 0, 0),
+            1: data(0, 1, 0, 0),
+            2: data(0, 0, 1, 0),
+            3: data(0, 0, 0, 1)
+        }
+        return switcher.get(data, [0, 0, 0, 0])
+
+    def prepareDataTHALandSlope(self, data):
+        array = ()
+        switcher = {
+            0: array(1, 0, 0),
+            1: array(0, 1, 0),
+            2: array(0, 0, 1)
+        }
+        return switcher.get(data, [0, 0, 0])
+
     def save(self, commit=True):
         if not commit:
             raise NotImplementedError("Can't create User and UserProfile without database save")
@@ -63,5 +89,34 @@ class RegisterForm(UserCreationForm):
                                        slope=self.cleaned_data['slope'],
                                        ca=self.cleaned_data['ca'],
                                        thal=self.cleaned_data['thal'])
+        # predict data
+
+        # data = [
+        #     self.cleaned_data['age'],
+        #     self.cleaned_data['gender'],
+        #     self.cleaned_data['trestbps'],
+        #     self.cleaned_data['chol'],
+        #     self.cleaned_data['thalach'],
+        #     self.cleaned_data['exang'],
+        #     self.cleaned_data['oldpeak'],
+        #     self.cleaned_data['ca']
+        # ]
+        #
+        # # add cp
+        # data.append(self.prepareDataCP(self.cleaned_data['cp']))
+        #
+        # # add thal
+        # data.append(self.prepareDataTHALandSlope(self.cleaned_data['thal']))
+        #
+        # # add slope
+        # data.append(self.prepareDataTHALandSlope(self.cleaned_data['slope']))
+
+        data = [1, 3, 145, 233, 1, 0, 150, 0, 2.3, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+
+        target = self.predict_data(data)
+
+        user_profile(target=target)
+
         user_profile.save()
+
         return user, user_profile
