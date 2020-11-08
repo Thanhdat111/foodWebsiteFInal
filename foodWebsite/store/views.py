@@ -1,7 +1,7 @@
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
-from .models import UserProfileInfo, Meats
+from .models import UserProfileInfo, Meats, Groceries, Meals, Fishandmeatandeggs
 from .form import RegisterForm
 
 
@@ -17,12 +17,37 @@ def store(request):
         userProfile = None
 
     # meats = Meats.objects.raw('SELECT * FROM fooddata.pickles')
-    meats = Meats.objects.raw(sqlQueryStringForPatient('meats'))
+    try:
+        target = userProfile.target
+    except Exception as e:
+        target = None
+
+    print(target)
+    if target == 1:
+        meats = Meats.objects.raw(sqlQueryStringForPatient('meats'))
+        groceries = Groceries.objects.raw(sqlQueryStringForPatient('groceries'))
+        meals = Meats.objects.raw(sqlQueryStringForPatient('meals'))
+        fishandmeatandeggs = Fishandmeatandeggs.objects.raw(sqlQueryStringForPatient('Fishandmeatandeggs'))
+    if target == 0:
+        meats = Meats.objects.all()
+        groceries = Groceries.objects.all()
+        meals = Meals.objects.all()
+        fishandmeatandeggs = Fishandmeatandeggs.objects.all()
+    else:
+        meats = None
+        groceries = None
+        meals = None
+        fishandmeatandeggs = None
+
     # meats = getDataForPatient(Meats)
     context = {'username': username,
                'userId': user_id,
                'userProfiler': userProfile,
-               'meats': meats}
+               'target': target,
+               'meats': meats,
+               'groceries': groceries,
+               'meals': meals,
+               'fishandmeatandeggs': fishandmeatandeggs}
     # print(request.user.id)
     # print(userProfile.cp)
     return render(request, 'store/index.html', context)
