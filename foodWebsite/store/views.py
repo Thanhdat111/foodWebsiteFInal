@@ -22,22 +22,34 @@ def store(request):
     except Exception as e:
         target = None
 
-    print(target)
+    # print(target)
     if target == 1:
         meats = Meats.objects.raw(sqlQueryStringForPatient('meats'))
         groceries = Groceries.objects.raw(sqlQueryStringForPatient('groceries'))
         meals = Meats.objects.raw(sqlQueryStringForPatient('meals'))
         fishandmeatandeggs = Fishandmeatandeggs.objects.raw(sqlQueryStringForPatient('Fishandmeatandeggs'))
+        bad_meats = Meats.objects.raw(sqlBadFoodForPatient('meats'))
+        bad_grooceries = Groceries.objects.raw(sqlBadFoodForPatient('groceries'))
+        bad_meals = Meals.objects.raw(sqlBadFoodForPatient('meals'))
+        bad_fishandmeatandeggs = Fishandmeatandeggs.objects.raw(sqlBadFoodForPatient('Fishandmeatandeggs'))
     if target == 0:
         meats = Meats.objects.all()
         groceries = Groceries.objects.all()
         meals = Meals.objects.all()
         fishandmeatandeggs = Fishandmeatandeggs.objects.all()
-    else:
+        bad_meats = None
+        bad_grooceries = None
+        bad_meals = None
+        bad_fishandmeatandeggs = None
+    if target is None:
         meats = None
         groceries = None
         meals = None
         fishandmeatandeggs = None
+        bad_meats = None
+        bad_grooceries = None
+        bad_meals = None
+        bad_fishandmeatandeggs = None
 
     # meats = getDataForPatient(Meats)
     context = {'username': username,
@@ -47,7 +59,13 @@ def store(request):
                'meats': meats,
                'groceries': groceries,
                'meals': meals,
-               'fishandmeatandeggs': fishandmeatandeggs}
+               'fishandmeatandeggs': fishandmeatandeggs,
+               'bad_meats': bad_meats,
+               'bad_grooceries': bad_grooceries,
+               'bad_meals': bad_meals,
+               'bad_fishandmeatandeggs': bad_fishandmeatandeggs
+               }
+
     # print(request.user.id)
     # print(userProfile.cp)
     return render(request, 'store/index.html', context)
@@ -99,3 +117,10 @@ def sqlQueryStringForPatient(catalog):
 
 def sqlQueryStringForNormal(catalog):
     return 'SELECT * FROM fooddata.' + catalog
+
+
+def sqlBadFoodForPatient(catalog):
+    return 'SELECT * FROM fooddata.' + catalog + ' where ' \
+                                                 'fat > 25 ' \
+                                                 'or energy > 20 ' \
+                                                 'or cholesterol is not null '
